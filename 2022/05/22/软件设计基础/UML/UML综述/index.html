@@ -1,0 +1,765 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://image.wyxcl.xyz/10f1ab8a74a1600004e77f6d44daae96.jpeg">
+  <link rel="icon" href="https://image.wyxcl.xyz/10f1ab8a74a1600004e77f6d44daae96.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Yadmire">
+  <meta name="keywords" content="yadmire">
+  
+    <meta name="description" content="UML图前言​    前一段时间开始，因为工作性质变化的原因，除了日常的coding外，还承担了一些项目的技术预案、立项、等文档的编写等相关工作，需要画大量的技术架构相关的一些图。涉及到了比较多的UML图。 借此机会，我也重新复习一下各类UML吧。 什么是UMLUML即Unified Model Language，是一种建模语言，它以图形的方式来描述软件的概念,也是标准建模语言。在软件开发中，当系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UML图概述">
+<meta property="og:url" content="https://yadmire.wyxcl.xyz/2022/05/22/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80/UML/UML%E7%BB%BC%E8%BF%B0/index.html">
+<meta property="og:site_name" content="yadmire&#39;s blog">
+<meta property="og:description" content="UML图前言​    前一段时间开始，因为工作性质变化的原因，除了日常的coding外，还承担了一些项目的技术预案、立项、等文档的编写等相关工作，需要画大量的技术架构相关的一些图。涉及到了比较多的UML图。 借此机会，我也重新复习一下各类UML吧。 什么是UMLUML即Unified Model Language，是一种建模语言，它以图形的方式来描述软件的概念,也是标准建模语言。在软件开发中，当系">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.wyxcl.xyz/023b5bb5c9ea15ced94bd52936dfd3fb3b87b255.png">
+<meta property="og:image" content="https://image.wyxcl.xyz/20210105150434821.png">
+<meta property="og:image" content="https://image.wyxcl.xyz/uml_class_struct.jpg">
+<meta property="og:image" content="https://image.wyxcl.xyz/241f95cad1c8a7866f5fa7c5fa36563571cf5048.jpeg">
+<meta property="og:image" content="https://image.wyxcl.xyz/1130413-20190208210743838-151551384.png">
+<meta property="og:image" content="https://image.wyxcl.xyz/1503392775828972.jpg">
+<meta property="og:image" content="https://image.wyxcl.xyz/3b292df5e0fe992583d545a39697c1d78cb1712b.jpeg">
+<meta property="og:image" content="https://image.wyxcl.xyz/D0wkkHSbtC6VUSHX4WsjP5ssg5mdnEmXO8NGVGF34dxS9N1WCcq6wvquR4K_Hcut">
+<meta property="article:published_time" content="2022-05-22T17:00:00.000Z">
+<meta property="article:modified_time" content="2022-07-12T01:33:51.136Z">
+<meta property="article:author" content="Yadmire">
+<meta property="article:tag" content="软件设计基础">
+<meta property="article:tag" content="UML">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://image.wyxcl.xyz/023b5bb5c9ea15ced94bd52936dfd3fb3b87b255.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>UML图概述 - yadmire&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yadmire.wyxcl.xyz","root":"/","version":"1.9.0","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":3},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Admire</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://image.wyxcl.xyz/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="UML图概述"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-22 17:00" pubdate>
+          2022年5月22日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">UML图概述</h1>
+            
+            <div class="markdown-body">
+              
+              <h1 id="UML图"><a href="#UML图" class="headerlink" title="UML图"></a>UML图</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​    前一段时间开始，因为工作性质变化的原因，除了日常的coding外，还承担了一些项目的技术预案、立项、等文档的编写等相关工作，需要画大量的技术架构相关的一些图。涉及到了比较多的UML图。 借此机会，我也重新复习一下各类UML吧。</p>
+<h2 id="什么是UML"><a href="#什么是UML" class="headerlink" title="什么是UML"></a>什么是UML</h2><p>UML即<strong>Unified Model Language</strong>，是一种建模语言，它以<strong>图形的方式</strong>来描述软件的概念,也是标准建模语言。在软件开发中，当系统规模比较复杂时，需要用图形抽象地来表达复杂的概念，让整个软件设计更具有可读性，可理解性，以便尽早发现软件设计时存在的潜在问题，从而降低开发风险。同时，也极大地方便了业务人员与开发人员之间的交流。</p>
+<h2 id="UML分类"><a href="#UML分类" class="headerlink" title="UML分类"></a>UML分类</h2><p>UML 是一个总称，共包含共10 种图：</p>
+<p>其中包含<code>静态图</code>也称<code>结构视图</code> 6种：<code>用例图</code> 、 <code>类图</code>、<code>包图</code>、<code>对象图</code>、<code>部署图</code></p>
+<p><code>动态图</code>也称为<code>行为视图</code>4种： <code>顺序</code>、<code>协作</code>、<code>状态</code>、<code>活动图</code></p>
+<p><img src="https://image.wyxcl.xyz/023b5bb5c9ea15ced94bd52936dfd3fb3b87b255.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>其中常用的有： </p>
+<p><strong>常用的静态图</strong>：用例图、类图、包图、对象图、部署图</p>
+<p><strong>常用的动态图</strong>：顺序图，协作图（也称为通信图），状态机图，活动图</p>
+<h2 id="简要介绍"><a href="#简要介绍" class="headerlink" title="简要介绍"></a>简要介绍</h2><h3 id="用例图"><a href="#用例图" class="headerlink" title="用例图"></a>用例图</h3><p>用例图是参与者从系统外部能观察到的系统功能的模型图。用例是系统中的一个功能单元，可以描述为参与者与系统之间的一次交互。用例图即是描述出系统的参与者以及参与者可以执行的系统用例。</p>
+<p><img src="https://image.wyxcl.xyz/20210105150434821.png" srcset="/img/loading.gif" lazyload alt="最简单的用例图"></p>
+<h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p>用于描述系统中所包含的类以及它们之间的相互关系。</p>
+<p>类图的两个重要元素：类，以及类之间的关系。</p>
+<p>类的关系<strong>（6种）</strong>：<strong>依赖关系、继承&#x2F;泛化关系、实线关系、关联关系、聚合关系、组合关系</strong></p>
+<p><img src="https://image.wyxcl.xyz/uml_class_struct.jpg" srcset="/img/loading.gif" lazyload alt="_images/uml_class_struct.jpg"></p>
+<h3 id="对象图"><a href="#对象图" class="headerlink" title="对象图"></a>对象图</h3><h3 id="包图"><a href="#包图" class="headerlink" title="包图"></a>包图</h3><p>包图通常用于描述系统的逻辑架构——层、子系统、包等。层可以建模为UML包。UML包用一大一小两个矩形组合而成。如果内部显示了其成员，则包名称标在上面的小矩形内，否则可以标在包内。</p>
+<p><img src="https://image.wyxcl.xyz/241f95cad1c8a7866f5fa7c5fa36563571cf5048.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>包拥有的元素<strong>：类、接口、组件、节点、协作、用例、图以及其他包。</strong>包的可见性用来控制包外界的元素对包内元素的可访问权限。这种可见性它分为3种，即公有访问、保护访问和私有访问。</p>
+<p>包之间可以有两种关系：<strong>依赖、泛化</strong>。</p>
+<h3 id="组件图"><a href="#组件图" class="headerlink" title="组件图"></a>组件图</h3><p>UML 组件图（Component Diagram）又称为构件图，他描述的是在软件系统中遵从并实现一组接口的物理的、可替换的软件模块。</p>
+<p>组件图 &#x3D; 构件（Component）+接口（Interface）+关系（Relationship）+端口（Port）+连接器（Connector）</p>
+<p>UML 组件图给提供了将要建立的系统的高层次的架构视图，这将帮助开发者开始建立实现的路标，并决定关于任务分配及（或）增进需求技能。</p>
+<p><img src="https://image.wyxcl.xyz/1130413-20190208210743838-151551384.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="部署图"><a href="#部署图" class="headerlink" title="部署图"></a>部署图</h3><p>部署图是用来显示系统中软件和硬件的物理架构。使用部署图不仅可以显示运行时系统的结构，还能够传达构成应用程序的硬件和软件元素的配置和部署方式。</p>
+<p>部署图的组成元素：<strong>结点、构件</strong>（因此部署图也经常和构件图一起使用）、<strong>接口、连接</strong>。</p>
+<p><img src="https://image.wyxcl.xyz/1503392775828972.jpg" srcset="/img/loading.gif" lazyload alt="1049196244-0"></p>
+<h3 id="状态图"><a href="#状态图" class="headerlink" title="状态图"></a>状态图</h3><p>UML 状态图是图表本身的名称，主要用于描述对象具有的各种状态、状态之间的转换过程以及触发状态转换的各种事件和条件。</p>
+<p>UML 状态图描述了一个状态机，可以被定义为一台机器，它定义了一个对象，这些状态控制外部或内部事件的不同状态。</p>
+<h3 id="活动图"><a href="#活动图" class="headerlink" title="活动图"></a>活动图</h3><p>活动图是一种用于描述系统行为的模型视图，它可以用来描述系统的工作流程和并发行为，用于展现参与系统某一行为的类进行的各种活动的顺序关系。</p>
+<p>活动图类似于流程图，可以描述过程逻辑、业务流程和工作流，但活动图支持并发行为。</p>
+<p><img src="https://image.wyxcl.xyz/3b292df5e0fe992583d545a39697c1d78cb1712b.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h3><p>序列图（Sequence Diagram），又称顺序图或时序图，它是描述对象行为的一种交互视图。</p>
+<p><img src="https://image.wyxcl.xyz/D0wkkHSbtC6VUSHX4WsjP5ssg5mdnEmXO8NGVGF34dxS9N1WCcq6wvquR4K_Hcut" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="协作图"><a href="#协作图" class="headerlink" title="协作图"></a>协作图</h3><p>通信图描述的是对象和对象之间的调用关系，体现的是一种组织关系。</p>
+<p>通信图组成元素：<strong>对象、链接、消息</strong>。</p>
+<p>通信图和时序图有点类似。但时序图着重于时间顺序，而通信图则关注的是对象之间的组织关系，通信图中的时间顺序可以从消息序号中获得。在语义上这两个图是等价的可以互相转换而不会丢失信息。</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80/" class="category-chain-item">软件设计基础</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80/UML/" class="category-chain-item">UML</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80/">#软件设计基础</a>
+      
+        <a href="/tags/UML/">#UML</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>UML图概述</div>
+      <div>https://yadmire.wyxcl.xyz/2022/05/22/软件设计基础/UML/UML综述/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Yadmire</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年5月22日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+              <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                <i class="iconfont icon-sa"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/19/java/%E5%9F%BA%E7%A1%80/%E6%BC%AB%E8%B0%88java%E7%BD%91%E7%AB%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E9%94%81/" title="漫谈java网站开发中的各种锁">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">漫谈java网站开发中的各种锁</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/20/java/springboot/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%99%BB%E5%BD%95%E6%A8%A1%E5%BC%8F/" title="springboot手写一个简单的登录验证方案">
+                        <span class="hidden-mobile">springboot手写一个简单的登录验证方案</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2021109380号
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,772 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://image.wyxcl.xyz/10f1ab8a74a1600004e77f6d44daae96.jpeg">
+  <link rel="icon" href="https://image.wyxcl.xyz/10f1ab8a74a1600004e77f6d44daae96.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Yadmire">
+  <meta name="keywords" content="yadmire">
+  
+    <meta name="description" content="利用mapStruct 进行pojo类的转换介绍whatMapStruct 是一个代码生成器，它极大地简化了基于约定而不是配置方法的 Java Bean 类型之间映射的实现。生成的映射代码使用普通方法调用，因此快速、类型安全且易于理解。 why多层应用程序通常需要在不同的对象模型（例如实体和 DTO）之间进行映射。编写此类映射代码是一项繁琐且容易出错的任务。MapStruct旨在通过尽可能地自动化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用mapStruct 进行pojo类的转换">
+<meta property="og:url" content="https://yadmire.wyxcl.xyz/2022/05/13/java/%E5%85%B6%E4%BB%96%E6%A1%86%E6%9E%B6/%E5%88%A9%E7%94%A8mapStruct%20%E8%BF%9B%E8%A1%8Cpojo%E7%B1%BB%E7%9A%84%E8%BD%AC%E6%8D%A2/index.html">
+<meta property="og:site_name" content="yadmire&#39;s blog">
+<meta property="og:description" content="利用mapStruct 进行pojo类的转换介绍whatMapStruct 是一个代码生成器，它极大地简化了基于约定而不是配置方法的 Java Bean 类型之间映射的实现。生成的映射代码使用普通方法调用，因此快速、类型安全且易于理解。 why多层应用程序通常需要在不同的对象模型（例如实体和 DTO）之间进行映射。编写此类映射代码是一项繁琐且容易出错的任务。MapStruct旨在通过尽可能地自动化">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/14fef488ee114ee8bd60d28c19af5114~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="http://image.wyxcl.xyz/typore/image-20220525102839916-16534457460791.png">
+<meta property="article:published_time" content="2022-05-13T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-07-12T01:33:51.136Z">
+<meta property="article:author" content="Yadmire">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="pojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/14fef488ee114ee8bd60d28c19af5114~tplv-k3u1fbpfcp-watermark.image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>利用mapStruct 进行pojo类的转换 - yadmire&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yadmire.wyxcl.xyz","root":"/","version":"1.9.0","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":3},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Admire</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://image.wyxcl.xyz/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="利用mapStruct 进行pojo类的转换"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-13 00:00" pubdate>
+          2022年5月13日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          7.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          63 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">利用mapStruct 进行pojo类的转换</h1>
+            
+            <div class="markdown-body">
+              
+              <h1 id="利用mapStruct-进行pojo类的转换"><a href="#利用mapStruct-进行pojo类的转换" class="headerlink" title="利用mapStruct 进行pojo类的转换"></a>利用mapStruct 进行pojo类的转换</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><h3 id="what"><a href="#what" class="headerlink" title="what"></a>what</h3><p>MapStruct 是一个代码生成器，它极大地简化了基于约定而不是配置方法的 Java Bean 类型之间映射的实现。生成的映射代码使用普通方法调用，因此快速、类型安全且易于理解。</p>
+<h3 id="why"><a href="#why" class="headerlink" title="why"></a>why</h3><p>多层应用程序通常需要在不同的对象模型（例如实体和 DTO）之间进行映射。编写此类映射代码是一项繁琐且容易出错的任务。MapStruct旨在通过尽可能地自动化来简化这项工作。对比BeanUtils ,该框架使用get、set方式实现，相较于反射效率更高，同时，支持特殊的映射关系，比BeanUtils更加灵活。</p>
+<p>与其他映射框架相比，MapStruct 在编译时生成 Bean 映射，从而确保高性能，允许快速的开发人员反馈和彻底的错误检查。</p>
+<h3 id="how"><a href="#how" class="headerlink" title="how"></a>how</h3><p>MapStruct是一个注释处理器，它插入到Java编译器中，可以在命令行构建（Maven，Gradle等）以及IDE中使用。</p>
+<p>官网：<a target="_blank" rel="noopener" href="https://mapstruct.org/">MapStruct – Java bean mappings, the easy way!</a></p>
+<h2 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h2><h3 id="方案一-直接引入"><a href="#方案一-直接引入" class="headerlink" title="方案一 直接引入"></a>方案一 直接引入</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs xml">     <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">optional</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">optional</span>&gt;</span><br>     <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mapstruct<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mapstruct<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.4.2.Final<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>     <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mapstruct<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mapstruct-processor<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">option</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.4.2.Final<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>     <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>Notice：</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mapstruct<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mapstruct-jdk8<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;mapstruct.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>很多博客上写的 mapstruct-jdk8 坐标已在新版本中废弃</strong></p>
+<hr>
+<h3 id="方案二-通过插件引入（官网）"><a href="#方案二-通过插件引入（官网）" class="headerlink" title="方案二 通过插件引入（官网）"></a>方案二 通过插件引入（官网）</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs xml"> <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">org.mapstruct.version</span>&gt;</span>1.4.2.Final<span class="hljs-tag">&lt;/<span class="hljs-name">org.mapstruct.version</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br> ...<br> <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mapstruct<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mapstruct<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;org.mapstruct.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>     <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br> ...<br> <span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span><br>             <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>             <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>             <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.8.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>             <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br>                 <span class="hljs-tag">&lt;<span class="hljs-name">source</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">source</span>&gt;</span> <span class="hljs-comment">&lt;!-- depending on your project --&gt;</span><br>                 <span class="hljs-tag">&lt;<span class="hljs-name">target</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">target</span>&gt;</span> <span class="hljs-comment">&lt;!-- depending on your project --&gt;</span><br>                 <span class="hljs-tag">&lt;<span class="hljs-name">annotationProcessorPaths</span>&gt;</span><br>                     <span class="hljs-tag">&lt;<span class="hljs-name">path</span>&gt;</span><br>                         <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mapstruct<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                         <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mapstruct-processor<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                         <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;org.mapstruct.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>                     <span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span><br>                     <span class="hljs-comment">&lt;!-- other annotation processors --&gt;</span><br>                 <span class="hljs-tag">&lt;/<span class="hljs-name">annotationProcessorPaths</span>&gt;</span><br>             <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br>         <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span><br>     <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="IDE配置"><a href="#IDE配置" class="headerlink" title="IDE配置"></a>IDE配置</h2><p>官网地址：<a target="_blank" rel="noopener" href="https://mapstruct.org/documentation/ide-support/">IDE Support – MapStruct</a></p>
+<p>另外 idea可以考虑安装<code>MapStructSupport</code>插件,在设置mapping的时候很好用</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/14fef488ee114ee8bd60d28c19af5114~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20220511181318198.png"></p>
+<h2 id="使用方法及DEMO"><a href="#使用方法及DEMO" class="headerlink" title="使用方法及DEMO"></a>使用方法及DEMO</h2><h3 id="1-创建POJO"><a href="#1-创建POJO" class="headerlink" title="1.创建POJO"></a>1.创建POJO</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-meta">@Data</span><br> <span class="hljs-meta">@NoArgsConstructor</span><br> <span class="hljs-meta">@AllArgsConstructor</span><br> <span class="hljs-meta">@Builder</span><br> <span class="hljs-meta">@ApiModel(&quot;用户卡新增修改&quot;)</span><br> <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AddModifyUserCardVo</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Serializable</span> &#123;<br>     <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">long</span> <span class="hljs-variable">serialVersionUID</span> <span class="hljs-operator">=</span> -<span class="hljs-number">7504607649930524455L</span>;<br> ​<br>     <span class="hljs-meta">@ApiModelProperty(value = &quot;密码&quot;, example = &quot;123456&quot;, required = true, position = -1, notes = &quot;传加密后的密文,默认MD5(加密后密文是32位)加密方式&quot;)</span><br>     <span class="hljs-keyword">private</span> String password;<br> ​<br>     <span class="hljs-meta">@ApiModelProperty(value = &quot;&quot;, example = &quot;风之诗&quot;, required = false)</span><br>     <span class="hljs-keyword">private</span> String tradeAccountName;<br> ​<br>     <span class="hljs-meta">@ApiModelProperty(value = &quot;电话号码&quot;, example = &quot;15770634444&quot;, required = false)</span><br>     <span class="hljs-keyword">private</span> String phoneNo;<br> ​<br>     <span class="hljs-meta">@ApiModelProperty(value = &quot;通讯地址&quot;, example = &quot;xx省xx市xx区xxx&quot;, required = false)</span><br>     <span class="hljs-keyword">private</span> String adddress;<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-comment">/**</span><br><span class="hljs-comment">  * 新增卡信息</span><br><span class="hljs-comment">  */</span><br> <span class="hljs-meta">@ApiModel(&quot;客户卡信息&quot;)</span><br> <span class="hljs-meta">@Data</span><br> <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CustUserParam</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Serializable</span> &#123;<br> ​<br>     <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">long</span> <span class="hljs-variable">serialVersionUID</span> <span class="hljs-operator">=</span> -<span class="hljs-number">5708253734967403586L</span>;<br>     <span class="hljs-meta">@ApiModelProperty(value = &quot;密码&quot;, example = &quot;123456&quot;, required = true, position = -1, notes = &quot;传加密后的密文&quot;)</span><br>     <span class="hljs-keyword">private</span> String password;<br> ​<br>     <span class="hljs-meta">@ApiModelProperty(value = &quot;&quot;, example = &quot;风之诗&quot;, required = false)</span><br>     <span class="hljs-keyword">private</span> String userName;<br> ​<br>     <span class="hljs-meta">@ApiModelProperty(value = &quot;电话号码&quot;, example = &quot;15770634444&quot;, required = false)</span><br>     <span class="hljs-keyword">private</span> String phoneNo;<br> ​<br>     <span class="hljs-meta">@ApiModelProperty(value = &quot;通讯地址&quot;, example = &quot;xx省xx市xx区xxx&quot;, required = false)</span><br>     <span class="hljs-keyword">private</span> String adddress;<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-创建转换Interface"><a href="#2-创建转换Interface" class="headerlink" title="2.创建转换Interface"></a>2.创建转换Interface</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-meta">@Mapper</span><br> <span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">BankCardMapper</span> &#123;<br>     <span class="hljs-type">BankCardMapper</span> <span class="hljs-variable">INSTANCT</span> <span class="hljs-operator">=</span> Mappers.getMapper(BankCardMapper.class);<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-将Interface注入Spring"><a href="#3-将Interface注入Spring" class="headerlink" title="3.将Interface注入Spring"></a>3.将Interface注入Spring</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"> ​<br> <span class="hljs-meta">@Mapper(componentModel=&quot;spring&quot;)</span> <span class="hljs-comment">// 接口注入Spring，相当于加了一个@Component</span><br> <span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">BankCardMapper</span> &#123;<br>     <span class="hljs-comment">/**</span><br><span class="hljs-comment">      * 接口实现类的实例</span><br><span class="hljs-comment">      */</span><br>     <span class="hljs-type">BankCardMapper</span> <span class="hljs-variable">INSTANCT</span> <span class="hljs-operator">=</span> Mappers.getMapper(BankCardMapper.class);<br>     CustBankParam <span class="hljs-title function_">addCardParamConvert</span><span class="hljs-params">(AddModifyBankCardVo addModifyBankCardVo)</span>;<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>componentModel 有四个可选项：</p>
+<p>default： 默认 不注入，使用 Mappers.getMapper获取实例对象</p>
+<p>spring：（常用）实现类上添加了@Component</p>
+<p>cdi：</p>
+<p>jsr330：生成的实现类上会添加@javax.inject.Named 和@Singleton，可以通过 @Inject注解获取</p>
+</blockquote>
+<h3 id="4-添加转换接口"><a href="#4-添加转换接口" class="headerlink" title="4.添加转换接口"></a>4.添加转换接口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-meta">@Mapper(componentModel=&quot;spring&quot;)</span> <span class="hljs-comment">// </span><br> <span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">BankCardMapper</span> &#123;<br>     CustBankParam <span class="hljs-title function_">addCardParamConvert</span><span class="hljs-params">(AddModifyBankCardVo addModifyBankCardVo)</span>;<br> &#125;<br>     <br></code></pre></td></tr></table></figure>
+
+<h3 id="5-在Servce层使用接口"><a href="#5-在Servce层使用接口" class="headerlink" title="5.在Servce层使用接口"></a>5.在Servce层使用接口</h3><p>注入mapper;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-meta">@Autowired</span><br> <span class="hljs-keyword">private</span> BankCardMapper bankCardMapper;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">dealService</span><span class="hljs-params">(AddModifyBankCardVo addModifyBankCardVo)</span>&#123;<br>      <span class="hljs-comment">// ... 业务逻辑</span><br> <span class="hljs-type">CustBankParam</span> <span class="hljs-variable">custBankParam</span> <span class="hljs-operator">=</span> bankCardMapper.addCardParamConvert(addModifyBankCardVo);<br>     <span class="hljs-comment">// ... 业务逻辑</span><br> &#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="6-特殊转换"><a href="#6-特殊转换" class="headerlink" title="6. 特殊转换"></a>6. 特殊转换</h3><h4 id="6-1-使用Mapping对属性进行特殊处理"><a href="#6-1-使用Mapping对属性进行特殊处理" class="headerlink" title="6.1 使用Mapping对属性进行特殊处理"></a>6.1 使用Mapping对属性进行特殊处理</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Mappings(&#123;</span><br><span class="hljs-meta">            @Mapping(source = &quot;tradeAccountName&quot;,target = &quot;cusName&quot;),// 不同名称之间转换</span><br><span class="hljs-meta">            @Mapping(target = &quot;password&quot;, ignore=true),//忽略密码，不进行映射</span><br><span class="hljs-meta">            @Mapping(target = &quot;createDt&quot;, expression = &quot;java(new java.util.Date())&quot;),//支持表达式 </span><br><span class="hljs-meta">            // 注意： 这个属性不能与source()、defaultValue()、defaultExpression()(可与source共同使用，当source的值为null的时候使用该表达式)、qualifiedBy()、qualifiedByName()或constant()一起使用。</span><br><span class="hljs-meta">            </span><br><span class="hljs-meta">            @Mapping(target = &quot;updateDt&quot;, dateFormat=”yyyy-MM-dd“),//时间戳转换</span><br><span class="hljs-meta">            @Mapping(target = &quot;captalMode&quot;, defaultValue=&quot;1&quot;),//设置默认值，可设置source</span><br><span class="hljs-meta">        &#125;)</span><br>CustBankParam <span class="hljs-title function_">addCardParamConvert</span><span class="hljs-params">(AddModifyBankCardVo addModifyBankCardVo)</span>;<br></code></pre></td></tr></table></figure>
+
+<h4 id="6-2-逆映射"><a href="#6-2-逆映射" class="headerlink" title="6.2 逆映射"></a>6.2 逆映射</h4><p>在双向映射的情况下，例如从实体到DTO以及从DTO到实体，前向方法和反向方法的映射规则通常是相似的，并且可以通过切换source和来简单地反转target。</p>
+<p>使用注释 <code>@InheritInverseConfiguration</code> 表示方法应继承相应反向方法的反向配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">CustBankParam <span class="hljs-title function_">addCardParamConvert</span><span class="hljs-params">(AddModifyBankCardVo addModifyBankCardVo)</span>;<br><br><span class="hljs-meta">@InheritInverseConfiguration</span><br>AddModifyBankCardVo <span class="hljs-title function_">addModifyBankCardVoConvert</span><span class="hljs-params">(CustBankParam addModifyBankCardVo)</span>;<br></code></pre></td></tr></table></figure>
+
+<p>1）有一个注解@InheritConfiguration(下文提到)与该注解长得很像，请注意区分，虽然他们的功能有点相似，但是他们是不同的注解; 2）该注解虽然可以实现反转赋值，但是有一种情况需要手动加强——原映射的Mapping中没有source(典型的使用了expression、constant属性的都属于)。对于有这种情况的属性，原映射与新映射都需要指定出来；</p>
+<p>3）该注解只有一个属性name，它的值是原映射名。你可以把它理解为原映射对应的方法的名字，即方法的名字就是映射名。如上面的例子，规则名是”addCardParamConvert”。那该注解可以这样写<code>@InheritInverseConfiguration(name=&quot;addCardParamConvert&quot;)</code>。</p>
+<h4 id="6-3利用已有的对象映射更新对象-InheritConfiguration"><a href="#6-3利用已有的对象映射更新对象-InheritConfiguration" class="headerlink" title="6.3利用已有的对象映射更新对象 @InheritConfiguration"></a>6.3利用已有的对象映射更新对象 <code>@InheritConfiguration</code></h4><p>使用方法与6.2类似，但功能上有些有差异，上面已经介绍，这里注意区分即可。</p>
+<h4 id="6-4（补充）公共属性的映射"><a href="#6-4（补充）公共属性的映射" class="headerlink" title="6.4（补充）公共属性的映射"></a>6.4（补充）公共属性的映射</h4><p>对于我们平时新增、修改等操作，需要对修改create_time、update_time 等字段，有人说在修改数据库的时候使用mybatis-plus的自动填充即可，这也是个比较好的方案。可惜的是该框架不在我们公司的技术选型范围内，所以打算在类的转换上想办法了，如果在mapstruct上配置，这些字段需要对每个接口都配置一次，这显得很麻烦。能不能配置一个公共的方法就显得很重要。于是翻阅文档，发现了一个比较好玩的实验性功能：<br><a target="_blank" rel="noopener" href="https://mapstruct.org/documentation/stable/reference/html/#mapping-composition">https://mapstruct.org/documentation/stable/reference/html/#mapping-composition</a></p>
+<p><img src="http://image.wyxcl.xyz/typore/image-20220525102839916-16534457460791.png" srcset="/img/loading.gif" lazyload alt="image-20220525102839916">上代码DEMO：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 新增时使用注解，入参需要添加 LoginUser loginUser</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Retention(RetentionPolicy.CLASS)</span><br><span class="hljs-meta">@Mappings(&#123;</span><br><span class="hljs-meta">        @Mapping(target = &quot;createdTime&quot;,expression = &quot;java(new java.sql.Timestamp(System.currentTimeMillis()))&quot;),</span><br><span class="hljs-meta">        @Mapping(target = &quot;updatedTime&quot;,expression = &quot;java(new java.sql.Timestamp(System.currentTimeMillis()))&quot;),</span><br><span class="hljs-meta">        @Mapping(target = &quot;createdBy&quot;,source = &quot;loginUser.unionUserId&quot;),</span><br><span class="hljs-meta">        @Mapping(target = &quot;updatedBy&quot;,source = &quot;loginUser.unionUserId&quot;),</span><br><span class="hljs-meta">        @Mapping(target = &quot;tenantId&quot;,source = &quot;loginUser.tenantId&quot;),</span><br><span class="hljs-meta">        @Mapping(target = &quot;revision&quot;,expression = &quot;java(new Integer(1))&quot;)</span><br><span class="hljs-meta">&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> InsertMapper &#123;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">Mapper(componentModel = <span class="hljs-string">&quot;spring&quot;</span>)<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">EduActivityMapper</span> &#123;<br><br><br>    <span class="hljs-meta">@InsertMapper</span><br>    EduActivity <span class="hljs-title function_">insertEduActivity</span><span class="hljs-params">(EduActivityReq eduActivityReq, LoginUser loginUser)</span>;<br></code></pre></td></tr></table></figure>
+
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>mapstruct的使用比起传统的BeanUtils更加灵活效率更高，但是每次转换都要新增一个接口，这是一个缺点吧，后续在使用中有什么心得，还会继续补充<br>不过最重要的还是要经常翻阅一下API吧</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/java/" class="category-chain-item">java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/java/%E6%A1%86%E6%9E%B6/" class="category-chain-item">框架</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/">#java</a>
+      
+        <a href="/tags/pojo/">#pojo</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>利用mapStruct 进行pojo类的转换</div>
+      <div>https://yadmire.wyxcl.xyz/2022/05/13/java/其他框架/利用mapStruct 进行pojo类的转换/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Yadmire</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年5月13日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+              <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                <i class="iconfont icon-sa"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/13/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%BB%BC%E8%BF%B0/" title="设计模式综述">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">设计模式综述</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2021109380号
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
